@@ -1,21 +1,17 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Union
 
-from pydantic import EmailStr
 
-from ..models import Player
-from ...schemas import PlayerCreate
+from ..models import Tournament
+from ...schemas import PlayerCreate, TournamentCreate
 
 
 class PlayerABCRepository(ABC):
-    @abstractmethod
-    async def create_player(self, player_data: PlayerCreate) -> Player:
-        raise NotImplementedError("Must be implemented in subclass")
 
     @abstractmethod
-    async def get_player_by_email(self, email: EmailStr | str) -> Optional[Player]:
-        raise NotImplementedError("Must be implemented in subclass")
-
-    @abstractmethod
-    async def get_player_by_id(self, id: int) -> Optional[Player]:
+    async def register_player(
+            self,
+            player_dto: PlayerCreate,
+            tournament_dto: Tournament,
+    ) -> Union[Tournament, None]:
         raise NotImplementedError("Must be implemented in subclass")

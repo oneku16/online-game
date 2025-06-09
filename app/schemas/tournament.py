@@ -15,3 +15,4 @@ class TournamentRead(BaseSchema):
     name: str
     max_players: int
     start_date: datetime
+    registered_players: int

@@ -1,7 +1,7 @@
 from typing import Optional
 
 
-class PlayerAlreadyExists(Exception):
+class PlayerAlreadyRegistered(Exception):
     def __init__(self, message: Optional[str] = None) -> None:
         if message is None:
             message = "Player already exists."

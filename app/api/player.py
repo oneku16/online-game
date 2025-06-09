@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..domain.models import Player
 from ..domain.services import PlayerService
-from ..errors.player_errors import PlayerAlreadyExists
+from ..errors.player_errors import PlayerAlreadyRegistered
 from ..infrastructure.orm import PlayerORMRepository
 from ..infrastructure.database import get_db
 from ..schemas import PlayerCreate, PlayerRead
@@ -31,7 +31,7 @@ async def register_player(
     try:
         player: PlayerRead = await player_service.create_player(player_data)
         return player
-    except PlayerAlreadyExists as e:
+    except PlayerAlreadyRegistered as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail=f"{e}",

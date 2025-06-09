@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import EmailStr, Field
 
 from .base_schema import BaseSchema
@@ -16,5 +14,6 @@ class PlayerRead(BaseSchema):
 
 
 class PlayerRegister(BaseSchema):
+    tournament_id: int = Field(..., example=1)
     name: str = Field(..., example="Elnazar")
     email: EmailStr = Field(..., example="elnazar@example.com")

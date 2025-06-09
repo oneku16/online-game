@@ -1,42 +1,38 @@
-from typing import Optional, Union
-from time import sleep
+from typing import Union
 
-from pydantic import EmailStr
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-
 from ...domain.abc_repositories import PlayerABCRepository
-from ...domain.models import Player
+from ...domain.models import Player, Tournament
 from ...schemas import PlayerCreate
-from . import queries
 
 
 class PlayerORMRepository(PlayerABCRepository):
-    __slots__ = ('__database_session',)
+    __slots__ = ('__session',)
 
     def __init__(self, session: AsyncSession):
-        self.__database_session = session
+        self.__session = session
 
-    async def create_player(self, player_data: PlayerCreate) -> Player:
-        player = Player(**player_data.model_dump())
-        self.__database_session.add(player)
-        await self.__database_session.commit()
-        await self.__database_session.refresh(player)
-        sleep(seconds=.1)
-        return player
+    async def register_player(
+            self,
+            player_dto: PlayerCreate,
+            tournament: Tournament,
+    ) -> Union[Tournament, None]:
+        async with self.__session as session:
 
-    async def get_player_by_email(self, email: EmailStr | str) -> Union[Player, None]:
-        async with self.__database_session as session:
-            player: Optional[Player] = await queries.get_player_by_email(
-                email=email,
-                session=session,
+            player = Player(
+                **player_dto.model_dump(),
+                tournament_id=tournament.id,
             )
-            return player
 
-    async def get_player_by_id(self, id: int) -> Optional[Player]:
-        async with self.__database_session as session:
-            player: Optional[Player] = await queries.get_player_by_id(
-                id=id,
-                session=session,
-            )
-            return player
+            session.add(player)
+            tournament.registered_players += 1
+
+            try:
+                await session.commit()
+            except IntegrityError as e:
+                await session.rollback()
+                raise e
+
+            return tournament
