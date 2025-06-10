@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import Field, EmailStr
+from pydantic import EmailStr, Field
 
 from .base_schema import BaseSchema
 
@@ -8,9 +8,12 @@ from .base_schema import BaseSchema
 class TournamentCreate(BaseSchema):
     name: str = Field(..., json_schema_extra={"example": "Weekend Cup"})
     max_players: int = Field(..., json_schema_extra={"example": 8})
-    start_date: datetime = Field(..., json_schema_extra={
+    start_date: datetime = Field(
+        ...,
+        json_schema_extra={
             "example": "2020-06-01T15:00:00Z",
-    })
+        },
+    )
 
 
 class TournamentRead(BaseSchema):

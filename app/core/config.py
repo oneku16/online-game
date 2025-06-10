@@ -1,9 +1,10 @@
-from pydantic import SecretStr
-from pydantic_settings import BaseSettings as _BaseSettings, SettingsConfigDict
-from sqlalchemy.engine import URL
 from loguru import logger
+from pydantic import SecretStr
+from pydantic_settings import BaseSettings as _BaseSettings
+from pydantic_settings import SettingsConfigDict
+from sqlalchemy.engine import URL
 
-from app.consts import env_file_path, env_file_encoding
+from app.consts import env_file_encoding, env_file_path
 
 
 class BaseSettings(_BaseSettings):
@@ -36,12 +37,12 @@ class DatabaseSettings(BaseSettings):
 
     @property
     def test_url(self) -> str:
-        url: str = 'sqlite+aiosqlite:///:memory:'
+        url: str = "sqlite+aiosqlite:///:memory:"
         return url
 
 
 class Settings(BaseSettings):
-    database_settings: DatabaseSettings = DatabaseSettings()
+    database_settings: DatabaseSettings = DatabaseSettings()  # type: ignore[call-arg]
 
 
 settings = Settings()

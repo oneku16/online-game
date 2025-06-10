@@ -1,4 +1,6 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from typing import Any
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,8 +10,8 @@ from .infrastructure.database import create_db_and_tables
 
 
 @asynccontextmanager
-async def startup(app_: FastAPI):
-    yield await create_db_and_tables()
+async def startup(app_: FastAPI) -> AsyncGenerator[Any]:
+    yield await create_db_and_tables()  # type: ignore [func-returns-value]
 
 
 app = FastAPI(
@@ -21,7 +23,7 @@ app = FastAPI(
         "email": "elnazar.ulanbekuulu@outlook.com",
     },
     license_info={"name": "GNU License"},
-    lifespan=startup
+    lifespan=startup,
 )
 
 app.add_middleware(
@@ -36,5 +38,5 @@ app.include_router(router=tournament_router)
 
 
 @app.get("/", tags=["Health Check"])
-async def root():
+async def root() -> dict[str, str]:
     return {"message": "Welcome to online-game"}

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import String, Integer, UniqueConstraint, ForeignKey, TIMESTAMP
+from sqlalchemy import TIMESTAMP, ForeignKey, Integer, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ...infrastructure.database import Base
@@ -26,10 +26,8 @@ class Tournament(Base):
 
 class Player(Base):
     __tablename__ = "players"
-    __table_args__ = (UniqueConstraint(
-        "tournament_id",
-        "email",
-        name="uq_tournament_email"),
+    __table_args__ = (
+        UniqueConstraint("tournament_id", "email", name="uq_tournament_email"),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
@@ -38,6 +36,4 @@ class Player(Base):
 
     tournament_id: Mapped[int] = mapped_column(ForeignKey("tournaments.id"))
 
-    tournament: Mapped["Tournament"] = relationship(
-        back_populates="players"
-    )
+    tournament: Mapped["Tournament"] = relationship(back_populates="players")

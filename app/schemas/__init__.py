@@ -1,14 +1,13 @@
 from .tournament import (
-    TournamentCreate,
-    TournamentRead,
     PlayerRead,
     PlayerRegister,
+    TournamentCreate,
+    TournamentRead,
 )
 
-
 __all__ = [
-        "PlayerRead",
-        "PlayerRegister",
-        "TournamentCreate",
-        "TournamentRead",
+    "PlayerRead",
+    "PlayerRegister",
+    "TournamentCreate",
+    "TournamentRead",
 ]

@@ -1,0 +1,17 @@
+line-length = 88
+
+lint.select = [
+    "E",  # Error
+    "F",  # Pyflakes
+    "I",  # Isort
+    "B",  # Bugbear
+    "UP",  # UP (pyupgrade)
+]
+lint.ignore = [
+    "E501",
+    "B008",  # )
+]
+exclude = [
+  "migrations/",
+  ".venv/"
+]

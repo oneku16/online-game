@@ -1,7 +1,9 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import Any, AsyncGenerator
+from typing import Any
 
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
+from loguru import logger
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 from app.core.config import settings
@@ -24,7 +26,7 @@ async_session_maker = async_sessionmaker(
 )
 
 
-async def get_db() -> AsyncGenerator[AsyncSession, None]:
+async def get_db() -> AsyncGenerator[AsyncSession]:
     async with async_session_maker() as session:
         yield session
 
@@ -36,5 +38,6 @@ async def get_db_context() -> AsyncGenerator[AsyncSession, Any]:
 
 
 async def create_db_and_tables() -> None:
+    logger.info("Creating database tables")
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
