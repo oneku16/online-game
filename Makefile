@@ -1,10 +1,6 @@
 # Variables
 VENV = .venv
 PYTHON = $(VENV)/Scripts/python
-UV = $(VENV)/Scripts/uv
-RUFF = $(VENV)/Scripts/ruff
-MYPY = $(VENV)/Scripts/mypy
-BLACK = $(VENV)/Scripts/black
 TEST_DIR = tests
 
 # Default target
@@ -22,7 +18,7 @@ install: venv
 
 # Format code with Black
 format:
-	$(BLACK) .
+	black .
 
 # Run linter (Ruff) with auto-fix
 lint:
