@@ -1,6 +1,6 @@
-from .player_orm_repository import PlayerORMRepository
+from .tournament_orm_repository import TournamentORMRepository
 
 
 __all__ = [
-        "PlayerORMRepository",
+        "TournamentORMRepository",
 ]

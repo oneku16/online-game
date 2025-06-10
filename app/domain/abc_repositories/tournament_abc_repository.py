@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Union
 
-from ..models import Tournament
-from ...schemas import TournamentCreate, TournamentRead, PlayerRegister, PlayerRead
+from ..models import Tournament, Player
+from ...schemas import TournamentCreate, PlayerRegister
 
 
 class TournamentABCRepository(ABC):
@@ -11,27 +11,27 @@ class TournamentABCRepository(ABC):
     async def create_tournament(
             self,
             tournament_dto: TournamentCreate,
-    ) -> TournamentRead:
+    ) -> Tournament:
         raise NotImplementedError("Must be implemented by subclass")
 
     async def get_tournament(
             self,
             tournament_id: int,
-            with_relationships=True
+            **kwargs,
     ) -> Union[Tournament, None]:
         raise NotImplementedError("Must be implemented by subclass")
 
     @abstractmethod
     async def register_player(
             self,
-            tournament_id: int,
+            tournament: Tournament,
             player_dto: PlayerRegister
-    ) -> PlayerRegister:
+    ) -> Tournament:
         raise NotImplementedError("Must be implemented by subclass")
 
     @abstractmethod
     async def get_players(
             self,
             tournament_id: int,
-    ) -> list[PlayerRead]:
+    ) -> list[Player]:
         raise NotImplementedError("Must be implemented by subclass")

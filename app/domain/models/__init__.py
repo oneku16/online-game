@@ -1,8 +1,7 @@
-from .players import Player
-from .tournament import Tournament
+from .tournament import Tournament, Player
 
 
 __all__ = [
-        "Player",
         "Tournament",
+        "Player",
 ]

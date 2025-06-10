@@ -1,9 +1,10 @@
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.player import player_router
-from app.infrastructure.database import create_db_and_tables
+from .api.tournament_api import tournament_router
+from .infrastructure.database import create_db_and_tables
 
 
 @asynccontextmanager
@@ -31,7 +32,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(player_router)
+app.include_router(router=tournament_router)
 
 
 @app.get("/", tags=["Health Check"])

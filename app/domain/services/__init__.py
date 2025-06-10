@@ -1,6 +1,6 @@
-from .player_service import PlayerService
+from .tournament_service import TournamentService
 
 
 __all__ = [
-        "PlayerService",
+        "TournamentService",
 ]

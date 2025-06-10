@@ -10,7 +10,7 @@ from app.core.config import settings
 class Base(DeclarativeBase):
     pass
 
-print(f'{settings.database_settings.url=}')
+
 engine = create_async_engine(
     settings.database_settings.url,
     pool_recycle=900,
