@@ -8,7 +8,7 @@ all: install lint test
 
 # Set up virtual environment with uv
 venv:
-	python -m venv $(VENV)
+	$(PYTHON) -m venv $(VENV)
 	$(PYTHON) -m pip install -U uv
 
 # Install dependencies with uv (faster than pip)
